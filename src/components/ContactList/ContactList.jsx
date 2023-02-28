@@ -1,31 +1,33 @@
-import PropTypes from 'prop-types';
 import { ContactItem } from './ContactItem';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContactAction } from 'redux/contactSlice';
-import { filterContactAction } from 'redux/filterSlice';
+// import { deleteContact, fetchContacts } from 'redux/contactSlice';
+
+// import { filterContact } from 'redux/filterSlice';
 import s from '../ContactList/ContactStyle.module.scss';
+import { useEffect } from 'react';
+import { deleteContact, fetchContacts } from 'redux/operation';
 
 export function ContactList() {
   const contacts = useSelector(state => state.contacts.contacts);
+  // const contacts = [];
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
   const onDeleteContact = contactId => {
-    dispatch(deleteContactAction(contactId));
+    dispatch(deleteContact(contactId));
   };
 
-  const onChangeFilter = e => {
-    dispatch(filterContactAction(e.target));
-  };
-
-  const filteredContacts = () =>
-    contacts.filter(item =>
-      item.name.toLowerCase().trim().includes(filter.toLowerCase())
-    );
+  const filteredContacts = contacts.filter(item =>
+    item.name.toLowerCase().trim().includes(filter.toLowerCase())
+  );
 
   return (
     <ul className={s.list}>
-      {filteredContacts(onChangeFilter).map(({ id, name, number }) => (
+      {filteredContacts.map(({ id, name, number }) => (
         <ContactItem
           onDeleteContact={onDeleteContact}
           key={id}
@@ -37,7 +39,3 @@ export function ContactList() {
     </ul>
   );
 }
-
-ContactList.prototype = {
-  contacts: PropTypes.array.isRequired,
-};

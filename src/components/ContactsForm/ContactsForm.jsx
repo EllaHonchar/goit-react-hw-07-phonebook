@@ -1,9 +1,10 @@
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
-import { addContactAction } from 'redux/contactSlice';
+// import { addContact } from 'redux/contactSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import s from '../ContactsForm/FormStyle.module.scss';
+import { addContact } from 'redux/operation';
 
 export function ContactForm() {
   const [name, setName] = useState('');
@@ -36,7 +37,7 @@ export function ContactForm() {
     if (contacts.some(item => item.name === name)) {
       alert(`${name} is already in contacts`);
     } else {
-      dispatch(addContactAction(newContact));
+      dispatch(addContact(newContact));
       setName('');
       setNumber('');
     }
