@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import s from '../ContactList/ContactStyle.module.scss';
 import { useEffect } from 'react';
 import { deleteContact, fetchContacts } from 'redux/operation';
+import { selectContacts, selectFilter } from 'redux/selectors';
 
 export function ContactList() {
-  const contacts = useSelector(state => state.contacts.contacts);
+  const contacts = useSelector(selectContacts);
   // const contacts = [];
-  const filter = useSelector(state => state.filter);
+  const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
 
   useEffect(() => {
